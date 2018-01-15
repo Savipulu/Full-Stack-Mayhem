@@ -1,8 +1,0 @@
-Lomakkeet:
-
-- määritellään <form> tagilla
-- ...jonka attribuutteina on määritelty lomakkeen url ja käytetty metodi (lomakkeissa käytännössä aina POST)
-- jäsennellään <div> osioiden avulla
-- tekstikentät määritellään <input> tageilla
-- ...joiden attribuutteina on usein määritelty inputin tyyppi, ja tarvittaessa id tai nimi
-- tekstikenttien tarkoitus ilmaistaan otsikoiden, eli <label> elementtien avulla
