@@ -1,0 +1,47 @@
+HTML:
+
+HTML jäsentää sivun sisältöä, ottamatta kantaa sen tyylistä
+
+- kokoelma elementtejä
+- jäsennellään puurakenteena
+- elementit määritellään alku- ja lopputageilla (esim. <h1></h1>)
+- tagit voivat sisältää elementille määriteltyjä attribuutteja (esim. name="tekstikentta")
+
+Käytetyimpiä elementtejä: 
+
+<!DOCTYPE html>: dokumentin määrittely (kaikissa html-tiedostoissa)
+<html>: sisältää kaiken
+<head>: sisältää mm. css- ja js-tiedostojen viitteet
+<body>: sisältää sivun käyttäjälle näkyvän sisällön
+<title>: sivun otsikko, joka näkyy myös välilehden nimenä
+<img>: kuvaelementti
+<h1>-<h4>: Eri otsikkoelementit
+<p>: tekstielementti
+<ul>: järjestämätön lista
+<li>: listan jäsenelementti
+<a>: linkkielementti
+
+CSS:
+
+CSS määrittelee eri elementtien tyylit ottamatta kantaa niitten jäsentelyyn
+
+Esimerkki css-tiedoston tyylimäärittelystä:
+
+p {
+  color: red;
+  width: 500px;
+  border: 1px solid black;
+}
+
+Ylläoleva määrittelee p-elementtien väriksi punaisen, leveydeksi 500 pikseliä ja rajaukseksi pikselin paksuisen yhtenäisen mustan viivan
+
+CSS selektoreita:
+
+ELEMENTIN_NIMI: valitsee kaikki ELEMENTIN_NIMI elementit
+#tama_id: valitsee elementin jonka id on tama_id
+.joku-luokka: valitsee kaikki joku-luokka -ilmentymät
+elementti[kentta]: valitsee elementin elementti kentän kentta
+a:hover: muokkaa tyyliä tietyssä tilanteessa (esim. kun kursoria pidetään elementin päällä) 
+
+
+
