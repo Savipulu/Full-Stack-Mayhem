@@ -9,19 +9,19 @@ const Otsikko = ({teksti}) => {
   )
 }
 
-const Napit = ({funktiot, vaihtoehdot}) => {
+const Napit = ({funktio, vaihtoehdot}) => {
   return (
     <div>
       <Button
-        funktio={funktiot[0]}
+        funktio={funktio([1, 0, 0])}
         teksti={vaihtoehdot[0]} 
       />
       <Button
-        funktio={funktiot[1]}
+        funktio={funktio([0, 1, 0])}
         teksti={vaihtoehdot[1]} 
       />
       <Button
-        funktio={funktiot[2]}
+        funktio={funktio([0, 0, 1])}
         teksti={vaihtoehdot[2]} 
       />
     </div>
@@ -71,7 +71,6 @@ class App extends React.Component {
     this.statistiikkaOtsikko = "statistiikka"
     this.vaihtoehdot = ["hyvä", "neutraali", "huono"]
     this.statistiikat = ["keskiarvo", "positiivisia"]
-    this.funktiot = [this.klikHyva, this.klikNeutraali, this.klikHuono]
   }
 
   laskeKeskiarvo = () => {
@@ -81,7 +80,6 @@ class App extends React.Component {
     },
     this.laskePositiiviset
     )
-    console.log(this.state.keskiarvo)
   }
 
   laskePositiiviset = () => {
@@ -90,30 +88,18 @@ class App extends React.Component {
     })
   }
 
-  klikHyva = () => {
-    this.setState({
-      hyva: this.state.hyva + 1,
-      palautemaara: this.state.palautemaara + 1
-    },
-    this.laskeKeskiarvo
-  )}
-
-  klikNeutraali = () => {
-    this.setState({
-      neutraali: this.state.neutraali + 1,
-      palautemaara: this.state.palautemaara + 1
-    },
-    this.laskeKeskiarvo
-  )}
-
-  klikHuono = () => {
-    this.setState({
-      huono: this.state.huono + 1,
-      palautemaara: this.state.palautemaara + 1
-    },
-    this.laskeKeskiarvo
-  )}
-
+  kasvataArvoa = (palaute) => {
+    return () => {
+      this.setState({
+        hyva: this.state.hyva + palaute[0],
+        neutraali: this.state.neutraali + palaute[1],
+        huono: this.state.huono + palaute[2],
+        palautemaara: this.state.palautemaara + 1
+      },
+      this.laskeKeskiarvo
+    )}
+  }
+  
   render() {
     const statistiikka = () => {
       if (this.state.palautemaara === 0) {
@@ -130,7 +116,7 @@ class App extends React.Component {
     return (
       <div>
         <Otsikko teksti={this.palauteOtsikko} />
-        <Napit funktiot={this.funktiot} vaihtoehdot={this.vaihtoehdot} />
+        <Napit funktio={this.kasvataArvoa} vaihtoehdot={this.vaihtoehdot} />
         <Otsikko teksti={this.statistiikkaOtsikko} />
         <div>{statistiikka()}</div>
       </div>
