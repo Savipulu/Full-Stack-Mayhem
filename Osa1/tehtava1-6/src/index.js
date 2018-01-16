@@ -63,6 +63,7 @@ class App extends React.Component {
       hyva: 0,
       neutraali: 0,
       huono: 0,
+      palautemaara: 0,
       keskiarvo: 0,
       positiivisia: 0
     }
@@ -75,12 +76,8 @@ class App extends React.Component {
 
   laskeKeskiarvo = () => {
     let summa = this.state.hyva + (this.state.huono * -1)
-    let jakaja = this.state.hyva + this.state.neutraali + this.state.huono
-    if (jakaja === 0) {
-      jakaja = 1
-    }
     this.setState({
-      keskiarvo: (summa / jakaja).toFixed(1)
+      keskiarvo: (summa / this.state.palautemaara).toFixed(1)
     },
     this.laskePositiiviset
     )
@@ -88,40 +85,54 @@ class App extends React.Component {
   }
 
   laskePositiiviset = () => {
-    let kaikki = this.state.hyva + this.state.neutraali + this.state.huono
     this.setState({
-      positiivisia: ((this.state.hyva / kaikki) * 100).toFixed(2)
+      positiivisia: ((this.state.hyva / this.state.palautemaara) * 100).toFixed(2)
     })
   }
 
   klikHyva = () => {
     this.setState({
-      hyva: this.state.hyva + 1
+      hyva: this.state.hyva + 1,
+      palautemaara: this.state.palautemaara + 1
     },
     this.laskeKeskiarvo
   )}
 
   klikNeutraali = () => {
     this.setState({
-      neutraali: this.state.neutraali + 1
+      neutraali: this.state.neutraali + 1,
+      palautemaara: this.state.palautemaara + 1
     },
     this.laskeKeskiarvo
   )}
 
   klikHuono = () => {
     this.setState({
-      huono: this.state.huono + 1
+      huono: this.state.huono + 1,
+      palautemaara: this.state.palautemaara + 1
     },
     this.laskeKeskiarvo
   )}
 
   render() {
+    const statistiikka = () => {
+      if (this.state.palautemaara === 0) {
+        return (
+          <div>
+            <p>yhtään palautetta ei ole annettu</p>
+          </div>
+        )
+      }
+      return (
+        <Statistics sovellus={this} vaihtoehdot={this.vaihtoehdot} statistiikat={this.statistiikat} />
+      )
+    }
     return (
       <div>
         <Otsikko teksti={this.palauteOtsikko} />
         <Napit funktiot={this.funktiot} vaihtoehdot={this.vaihtoehdot} />
         <Otsikko teksti={this.statistiikkaOtsikko} />
-        <Statistics sovellus={this} vaihtoehdot={this.vaihtoehdot} statistiikat={this.statistiikat} />
+        <div>{statistiikka()}</div>
       </div>
     )
   }
