@@ -39,20 +39,25 @@ const Button = ({funktio, teksti}) => {
 const Statistics = ({sovellus, vaihtoehdot, statistiikat}) => {
   return (
     <div>
-      <Statistic teksti={vaihtoehdot[0]} arvo={sovellus.state.hyva} />
-      <Statistic teksti={vaihtoehdot[1]} arvo={sovellus.state.neutraali} />
-      <Statistic teksti={vaihtoehdot[2]} arvo={sovellus.state.huono} />
-      <Statistic teksti={statistiikat[0]} arvo={sovellus.state.keskiarvo} />
-      <Statistic teksti={statistiikat[1]} arvo={sovellus.state.positiivisia} yksikko="%"/>
+      <table>
+        <tbody>
+          <Statistic teksti={vaihtoehdot[0]} arvo={sovellus.state.hyva} />
+          <Statistic teksti={vaihtoehdot[1]} arvo={sovellus.state.neutraali} />
+          <Statistic teksti={vaihtoehdot[2]} arvo={sovellus.state.huono} />
+          <Statistic teksti={statistiikat[0]} arvo={sovellus.state.keskiarvo} />
+          <Statistic teksti={statistiikat[1]} arvo={sovellus.state.positiivisia} yksikko="%"/>
+        </tbody>
+      </table>
     </div>
   )
 }
 
 const Statistic = ({teksti, arvo, yksikko}) => {
   return (
-    <div>
-      <p>{teksti}: {arvo}{yksikko}</p>
-    </div>
+    <tr>
+      <td width="42">{teksti}:</td>
+      <td>{arvo}{yksikko}</td>
+    </tr>
   )
 }
 
@@ -99,7 +104,7 @@ class App extends React.Component {
       this.laskeKeskiarvo
     )}
   }
-  
+
   render() {
     const statistiikka = () => {
       if (this.state.palautemaara === 0) {
