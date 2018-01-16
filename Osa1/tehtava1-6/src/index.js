@@ -12,15 +12,15 @@ const Otsikko = ({teksti}) => {
 const Napit = ({funktiot, vaihtoehdot}) => {
   return (
     <div>
-      <Nappi
+      <Button
         funktio={funktiot[0]}
         teksti={vaihtoehdot[0]} 
       />
-      <Nappi
+      <Button
         funktio={funktiot[1]}
         teksti={vaihtoehdot[1]} 
       />
-      <Nappi
+      <Button
         funktio={funktiot[2]}
         teksti={vaihtoehdot[2]} 
       />
@@ -28,7 +28,7 @@ const Napit = ({funktiot, vaihtoehdot}) => {
   )
 }
 
-const Nappi = ({funktio, teksti}) => {
+const Button = ({funktio, teksti}) => {
   return (
       <button onClick={funktio}>
         {teksti}
@@ -36,19 +36,19 @@ const Nappi = ({funktio, teksti}) => {
   )
 }
 
-const Statistiikat = ({sovellus, vaihtoehdot, statistiikat}) => {
+const Statistics = ({sovellus, vaihtoehdot, statistiikat}) => {
   return (
     <div>
-      <Statistiikka teksti={vaihtoehdot[0]} arvo={sovellus.state.hyva} />
-      <Statistiikka teksti={vaihtoehdot[1]} arvo={sovellus.state.neutraali} />
-      <Statistiikka teksti={vaihtoehdot[2]} arvo={sovellus.state.huono} />
-      <Statistiikka teksti={statistiikat[0]} arvo={sovellus.state.keskiarvo} />
-      <Statistiikka teksti={statistiikat[1]} arvo={sovellus.state.positiivisia} yksikko="%"/>
+      <Statistic teksti={vaihtoehdot[0]} arvo={sovellus.state.hyva} />
+      <Statistic teksti={vaihtoehdot[1]} arvo={sovellus.state.neutraali} />
+      <Statistic teksti={vaihtoehdot[2]} arvo={sovellus.state.huono} />
+      <Statistic teksti={statistiikat[0]} arvo={sovellus.state.keskiarvo} />
+      <Statistic teksti={statistiikat[1]} arvo={sovellus.state.positiivisia} yksikko="%"/>
     </div>
   )
 }
 
-const Statistiikka = ({teksti, arvo, yksikko}) => {
+const Statistic = ({teksti, arvo, yksikko}) => {
   return (
     <div>
       <p>{teksti}: {arvo}{yksikko}</p>
@@ -121,7 +121,7 @@ class App extends React.Component {
         <Otsikko teksti={this.palauteOtsikko} />
         <Napit funktiot={this.funktiot} vaihtoehdot={this.vaihtoehdot} />
         <Otsikko teksti={this.statistiikkaOtsikko} />
-        <Statistiikat sovellus={this} vaihtoehdot={this.vaihtoehdot} statistiikat={this.statistiikat} />
+        <Statistics sovellus={this} vaihtoehdot={this.vaihtoehdot} statistiikat={this.statistiikat} />
       </div>
     )
   }
