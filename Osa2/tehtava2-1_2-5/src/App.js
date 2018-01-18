@@ -1,5 +1,6 @@
 import React from "react";
 import Kurssi from "./components/Kurssi";
+import Otsikko from "./components/Otsikko";
 
 const App = () => {
   const kaikkiKurssit = kurssit =>
@@ -45,7 +46,12 @@ const App = () => {
     }
   ];
 
-  return <div>{kaikkiKurssit(kurssit)}</div>;
+  return (
+    <div>
+      <h1>Opetusohjelma</h1>
+      {kaikkiKurssit(kurssit)}
+    </div>
+  );
 };
 
 export default App;
