@@ -1,15 +1,13 @@
 import React from "react";
 import Otsikko from "./Otsikko";
+import Tekstikentta from "./Tekstikentta";
 
 const Lomake = ({ id, title, submitMethod, fields, submitText }) => {
   const makeFields = () => {
     return (
       <div>
         {fields.map(field => (
-          <div>
-            {field.name}
-            <input onChange={field.method} />
-          </div>
+          <Tekstikentta name={field.name} method={field.method} />
         ))}
       </div>
     );

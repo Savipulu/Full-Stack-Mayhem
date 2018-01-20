@@ -2,6 +2,7 @@ import React from "react";
 import Luettelo from "./components/Luettelo";
 import Lomake from "./components/Lomake";
 import Otsikko from "./components/Otsikko";
+import Tekstikentta from "./components/Tekstikentta";
 
 class App extends React.Component {
   constructor(props) {
@@ -75,9 +76,7 @@ class App extends React.Component {
     return (
       <div>
         <Otsikko teksti="Puhelinluettelo" />
-        <div>
-          rajaa näytettäviä <input onChange={this.rajaa} />
-        </div>
+        <Tekstikentta name="rajaa näytettäviä " method={this.rajaa} />
         <Lomake
           id="addPersonForm"
           title="Lisää uusi"
