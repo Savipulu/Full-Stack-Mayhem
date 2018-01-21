@@ -7,7 +7,11 @@ const Lomake = ({ id, title, submitMethod, fields, submitText }) => {
     return (
       <div>
         {fields.map(field => (
-          <Tekstikentta name={field.name} method={field.method} />
+          <Tekstikentta
+            key={field.name}
+            name={field.name}
+            method={field.method}
+          />
         ))}
       </div>
     );
