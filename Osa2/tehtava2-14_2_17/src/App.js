@@ -30,9 +30,25 @@ class App extends React.Component {
       name: this.state.newName,
       number: this.state.newNumber
     };
+    const person = this.state.persons.find(p => p.name === newPerson.name);
 
-    if (this.state.persons.find(person => person.name === newPerson.name)) {
-      alert("Henkilö löytyy jo puhelinluettelosta");
+    if (person) {
+      if (
+        window.confirm(
+          newPerson.name +
+            " löytyy jo puhelinluettelosta, korvataanko vanha numero uudella?"
+        )
+      ) {
+        const changedPerson = { ...person, number: this.state.newNumber };
+        const id = changedPerson.id;
+        peopleService.update(id, changedPerson).then(response => {
+          this.setState({
+            persons: this.state.persons.map(
+              person => (person.id !== id ? person : changedPerson)
+            )
+          });
+        });
+      }
       return;
     }
     peopleService.create(newPerson).then(newPerson => {
