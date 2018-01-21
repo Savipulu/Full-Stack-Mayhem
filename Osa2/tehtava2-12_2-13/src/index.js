@@ -13,7 +13,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    console.log("will mount");
     axios.get("https://restcountries.eu/rest/v2/all").then(response => {
       this.setState({
         all: response.data
@@ -57,7 +56,7 @@ class App extends React.Component {
         <p>capital: {country.capital}</p>
         <p>population: {country.population}</p>
         <div key="flag">
-          <img src={country.flag} width={300} />
+          <img src={country.flag} width={300} alt="flag" />
         </div>
       </div>
     ));
