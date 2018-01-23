@@ -1,3 +1,3 @@
 # Full-Stack-Mayhem
 
-[Osa 3](https://github.com/Savipulu/Fullstack-osa3)
+[Osan 3 repo](https://github.com/Savipulu/Fullstack-osa3)
