@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.notifier {
+  background: rgb(167, 167, 167);
+  border: 1px solid;
+  width: 300px;
+  padding: 20px;
+  margin: 10px;
+}
