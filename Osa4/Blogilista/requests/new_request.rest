@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-    "title": "Fullstack -blogi",
-    "author": "Jaska Jokunen",
+    "title": "Ruby -blogi",
+    "author": "Matti Meikäläinen",
     "url": "",
     "likes": 0
 }
