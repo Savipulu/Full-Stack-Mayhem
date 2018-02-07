@@ -19,6 +19,7 @@
   "devDependencies": {
     "eslint": "^4.17.0",
     "eslint-plugin-promise": "^3.6.0",
+    "jest": "^22.2.1",
     "nodemon": "^1.14.12"
   }
 }
