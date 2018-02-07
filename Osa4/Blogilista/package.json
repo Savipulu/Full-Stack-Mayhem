@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "node_modules/.bin/nodemon index.js",
-    "lint": "node_modules/.bin/eslint ."
+    "lint": "node_modules/.bin/eslint .",
+    "test": "node_modules/.bin/jest --verbose"
   },
   "author": "Jouni Winter",
   "license": "MIT",
