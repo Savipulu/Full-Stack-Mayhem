@@ -3,14 +3,14 @@ module.exports = {
     es6: true,
     node: true
   },
-  plugins: ["promise"],
-  extends: "eslint:recommended",
+  plugins: ['promise'],
+  extends: 'eslint:recommended',
   rules: {
-    "promise/catch-or-return": "error",
-    indent: ["error", 2],
-    "linebreak-style": ["error", "unix"],
-    quotes: ["error", "double"],
-    semi: ["error", "always"],
-    "no-console": 0
+    'promise/catch-or-return': 'error',
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'unix'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
+    'no-console': 0
   }
-};
+}
