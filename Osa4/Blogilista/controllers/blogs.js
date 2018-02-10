@@ -11,18 +11,15 @@ blogsRouter.get('/', async (request, response) => {
   }
 })
 
-blogsRouter.post('/', (request, response) => {
-  const blog = new Blog(request.body)
-
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-    .catch(error => {
-      console.log(error)
-      response.status(418).end()
-    })
+blogsRouter.post('/', async (request, response) => {
+  try {
+    const blog = new Blog(request.body)
+    const saved = await blog.save()
+    response.json(blog)
+  } catch (exception) {
+    console.log(exception)
+    response.status(400).send({ error: 'something went wrong' })
+  }
 })
 
 module.exports = blogsRouter

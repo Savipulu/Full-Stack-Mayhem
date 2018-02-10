@@ -38,6 +38,51 @@ test('blogs are returned', async () => {
   expect(response.body.length).toBe(initBlogs.length)
 })
 
+test('blogs can be created', async () => {
+  const newBlog = {
+    title: 'Automated testing with async/await',
+    author: 'Me',
+    url: 'www.testingisthebest.com',
+    likes: 9000
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r.title)
+
+  expect(response.body.length).toBe(initBlogs.length + 1)
+  expect(contents).toContain('Automated testing with async/await')
+})
+
+/*
+test('blog can be deleted', async () => {
+  const newBlog = {
+    title: 'Automated testing with async/await',
+    author: 'Me',
+    url: 'www.testingisthebest.com',
+    likes: 9000
+  }
+
+  const addedBlog = await api.post('/api/blogs').send(newBlog)
+
+  const blogsBeforeDeletion = await api.get('/api/blogs')
+
+  await api.delete(`/api/blogs/${addedBlog.body.id}`).expect(204)
+
+  const blogsAfterDeletion = await api.get('/api/blogs')
+
+  const contents = blogsAfterDeletion.body.map(r => r.content)
+
+  expect(contents).not.toContain('Automated testing with async/await')
+  expect(blogsAfterDeletion.body.length).toBe(blogsBeforeDeletion.body.length)
+})
+*/
+
 afterAll(() => {
   server.close()
 })
