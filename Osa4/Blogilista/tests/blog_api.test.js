@@ -59,6 +59,25 @@ test('blogs can be created', async () => {
   expect(contents).toContain('Automated testing with async/await')
 })
 
+test('blogs have a default like value of 0', async () => {
+  const newBlog = {
+    title: 'Automated testing with async/await, part 2',
+    author: 'Me Again',
+    url: 'www.testingisthebest.com'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r.likes)
+
+  expect(contents[response.body.length - 1]).toBe(0)
+})
+
 /*
 test('blog can be deleted', async () => {
   const newBlog = {
