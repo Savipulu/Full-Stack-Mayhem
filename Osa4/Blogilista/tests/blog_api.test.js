@@ -2,127 +2,135 @@ const supertest = require('supertest')
 const { app, server } = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const {
+  initBlogs,
+  format,
+  formatWithoutId,
+  blogsInDb,
+  nonExistingId
+} = require('./test_helper')
 
-const initBlogs = [
-  {
-    title: 'Full Stack Development',
-    author: 'Apina1',
-    url: 'www.poehinae.com',
-    likes: 666
-  },
-  {
-    title: 'Web-kehitys Javalla',
-    author: 'Apina2',
-    url: 'www.asdasd.com',
-    likes: 0
-  }
-]
+describe('with a previously initialized blog database', async () => {
+  beforeAll(async () => {
+    await Blog.remove({})
 
-beforeAll(async () => {
-  await Blog.remove({})
-  const blogObjects = initBlogs.map(blog => new Blog(blog))
-  const promiseArray = blogObjects.map(blog => blog.save())
-  await Promise.all(promiseArray)
-})
+    const blogObjects = initBlogs.map(blog => new Blog(blog))
+    await Promise.all(blogObjects.map(blog => blog.save()))
+  })
 
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+  test('blogs are returned as json by GET /api/blogs', async () => {
+    const blogs = await blogsInDb()
+    const response = await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
 
-test('blogs are returned', async () => {
-  const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(blogs.length)
 
-  expect(response.body.length).toBe(initBlogs.length)
-})
+    const contents = response.body.map(n => n.title)
+    blogs.forEach(blog => {
+      expect(contents).toContain(blog.title)
+    })
+  })
 
-test('blogs can be created', async () => {
-  const newBlog = {
-    title: 'Automated testing with async/await',
-    author: 'Me',
-    url: 'www.testingisthebest.com',
-    likes: 9000
-  }
+  describe('adding a blog', async () => {
+    test('a valid blog can be added', async () => {
+      const newBlog = {
+        title: 'Automated testing with async/await',
+        author: 'Me',
+        url: 'www.testingisthebest.com',
+        likes: 9000
+      }
+      const blogsBeforePost = await blogsInDb()
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
 
-  const response = await api.get('/api/blogs')
-  const contents = response.body.map(r => r.title)
+      const blogsAfterPost = await blogsInDb()
 
-  expect(response.body.length).toBe(initBlogs.length + 1)
-  expect(contents).toContain('Automated testing with async/await')
-})
+      expect(blogsAfterPost.length).toBe(blogsBeforePost.length + 1)
+      expect(blogsAfterPost).toContainEqual(newBlog)
+    })
 
-test('blogs have a default like value of 0', async () => {
-  const newBlog = {
-    title: 'Automated testing with async/await, part 2',
-    author: 'Me Again',
-    url: 'www.testingisthebest.com'
-  }
+    test('blogs have a default like value of 0', async () => {
+      const newBlog = {
+        title: 'Automated testing with async/await, part 2',
+        author: 'Me Again',
+        url: 'www.testingisthebest.com'
+      }
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
 
-  const response = await api.get('/api/blogs')
-  const contents = response.body.map(r => r.likes)
+      const blogsAfterPost = await blogsInDb()
+      const contents = blogsAfterPost.map(r => r.likes)
 
-  expect(contents[response.body.length - 1]).toBe(0)
-})
+      expect(contents[blogsAfterPost.length - 1]).toBe(0)
+    })
 
-test('blogs are not created without a valid url or title', async () => {
-  const newBlog = {
-    author: 'Ghost Writer',
-    likes: 9000
-  }
+    test('blogs are not created without a valid url or title', async () => {
+      const blogWithoutTitle = {
+        url: 'Ghost Url',
+        author: 'Ghost Writer',
+        likes: 9000
+      }
 
-  const blogsBeforePost = await api.get('/api/blogs')
+      const blogWithoutUrl = {
+        title: 'Ghost Title',
+        author: 'Ghost Writer',
+        likes: 9000
+      }
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
-    .expect('Content-Type', /application\/json/)
+      const blogsBeforePost = await blogsInDb()
 
-  const response = await api.get('/api/blogs')
-  const contents = response.body.map(r => r.author)
+      await api
+        .post('/api/blogs')
+        .send(blogWithoutTitle)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
 
-  expect(response.body.length).toBe(blogsBeforePost.body.length)
-  expect(contents).not.toContain('Ghost Writer')
-})
+      await api
+        .post('/api/blogs')
+        .send(blogWithoutUrl)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
 
-/*
-test('blog can be deleted', async () => {
-  const newBlog = {
-    title: 'Automated testing with async/await',
-    author: 'Me',
-    url: 'www.testingisthebest.com',
-    likes: 9000
-  }
+      const blogsAfterPost = await blogsInDb()
+      const contents = blogsAfterPost.map(r => r.author)
 
-  const addedBlog = await api.post('/api/blogs').send(newBlog)
+      expect(blogsAfterPost.length).toBe(blogsBeforePost.length)
+      expect(contents).not.toContain('Ghost Writer')
+    })
+  })
 
-  const blogsBeforeDeletion = await api.get('/api/blogs')
+  test('blog can be deleted', async () => {
+    const newBlog = {
+      title: 'Blog to be deleted',
+      author: 'Apina 3',
+      url: 'www.killyourdarlings.com',
+      likes: 1
+    }
+    const blogsBeforeDeletion = await blogsInDb()
 
-  await api.delete(`/api/blogs/${addedBlog.body.id}`).expect(204)
+    const addedBlog = await api.post('/api/blogs').send(newBlog)
 
-  const blogsAfterDeletion = await api.get('/api/blogs')
+    await api.delete(`/api/blogs/${addedBlog.body._id}`).expect(204)
 
-  const contents = blogsAfterDeletion.body.map(r => r.content)
+    const blogsAfterDeletion = await blogsInDb()
 
-  expect(contents).not.toContain('Automated testing with async/await')
-  expect(blogsAfterDeletion.body.length).toBe(blogsBeforeDeletion.body.length)
-})
-*/
+    const contents = blogsAfterDeletion.map(r => r.title)
 
-afterAll(() => {
-  server.close()
+    expect(contents).not.toContain('Blog to be deleted')
+    expect(blogsAfterDeletion.length).toBe(blogsBeforeDeletion.length)
+  })
+
+  afterAll(() => {
+    server.close()
+  })
 })
