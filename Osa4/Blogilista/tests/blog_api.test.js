@@ -78,6 +78,27 @@ test('blogs have a default like value of 0', async () => {
   expect(contents[response.body.length - 1]).toBe(0)
 })
 
+test('blogs are not created without a valid url or title', async () => {
+  const newBlog = {
+    author: 'Ghost Writer',
+    likes: 9000
+  }
+
+  const blogsBeforePost = await api.get('/api/blogs')
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r.author)
+
+  expect(response.body.length).toBe(blogsBeforePost.body.length)
+  expect(contents).not.toContain('Ghost Writer')
+})
+
 /*
 test('blog can be deleted', async () => {
   const newBlog = {
