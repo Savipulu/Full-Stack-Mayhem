@@ -1,0 +1,9 @@
+PUT http://localhost:3004/api/blogs/5a81db59e08e526e16c40bde
+content-type: application/json
+
+{
+    "title": "Blog to be updated",
+    "author": "Apina 3",
+    "url": "www.killyourdarlings.com",
+    "likes": "2"
+}

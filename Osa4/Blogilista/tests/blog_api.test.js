@@ -130,6 +130,31 @@ describe('with a previously initialized blog database', async () => {
     expect(blogsAfterDeletion.length).toBe(blogsBeforeDeletion.length)
   })
 
+  test('blog can be updated', async () => {
+    const newBlog = {
+      title: 'Blog to be updated',
+      author: 'Apina 3',
+      url: 'www.killyourdarlings.com',
+      likes: 0
+    }
+    const addedBlog = await api.post('/api/blogs').send(newBlog)
+
+    newBlog.likes = 2
+
+    console.log(newBlog)
+
+    await api
+      .put(`/api/blogs/${addedBlog.body._id}`)
+      .send(newBlog)
+      .expect(200)
+
+    const blogsAfterUpdate = await blogsInDb()
+
+    const contents = blogsAfterUpdate.map(r => r.likes)
+
+    expect(contents[contents.length - 1]).toBe(2)
+  })
+
   afterAll(() => {
     server.close()
   })
