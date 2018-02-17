@@ -4,7 +4,7 @@ var schema = new mongoose.Schema({
   username: String,
   name: String,
   passwordHash: String,
-  adult: { type: Boolean, default: false }
+  adult: Boolean
 })
 
 const User = mongoose.model('User', schema)
