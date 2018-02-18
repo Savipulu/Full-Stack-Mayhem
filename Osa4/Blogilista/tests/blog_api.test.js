@@ -2,13 +2,24 @@ const supertest = require('supertest')
 const { app, server } = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const { initBlogs, blogsInDb } = require('./test_helper')
+const bcrypt = require('bcrypt')
 
 describe('with a previously initialized blog database', async () => {
   beforeAll(async () => {
     await Blog.remove({})
 
+    const passwordHash = await bcrypt.hash('Testisalasana', 10)
+    const user = new User({
+      username: 'Savipulu',
+      name: 'Jouni Winter',
+      passwordHash
+    })
+    await user.save()
+
     const blogObjects = initBlogs.map(blog => new Blog(blog))
+    blogObjects.forEach(blog => (blog.user = user))
     await Promise.all(blogObjects.map(blog => blog.save()))
   })
 

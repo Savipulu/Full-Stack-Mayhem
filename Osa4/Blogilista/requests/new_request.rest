@@ -5,5 +5,6 @@ content-type: application/json
     "title": "Ruby -blogi",
     "author": "Matti Meikäläinen",
     "url": "",
-    "likes": 0
+    "likes": 0,
+    "userId": "5a88d600c52c3f585196c251"
 }
