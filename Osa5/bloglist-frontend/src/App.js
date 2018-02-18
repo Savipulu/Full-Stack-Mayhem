@@ -3,6 +3,8 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import BlogCreationForm from './components/BlogForm'
+import Notification from './components/Notification'
+import './index.css'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,7 +13,8 @@ class App extends React.Component {
       blogs: [],
       username: '',
       password: '',
-      user: null
+      user: null,
+      notification: null
     }
   }
 
@@ -41,7 +44,10 @@ class App extends React.Component {
       })
 
       const blogs = this.state.blogs.concat(newBlog)
-      this.setState({ blogs: blogs })
+      this.setState({
+        blogs: blogs,
+        notification: `a new blog '${blogTitle}' by ${blogAuthor} added`
+      })
     } catch (exception) {
       console.log(exception)
     }
@@ -65,6 +71,10 @@ class App extends React.Component {
       this.setState({ username: '', password: '', user })
     } catch (exception) {
       console.log(exception)
+      this.setState({ notification: 'wrong username and/or password' })
+      setTimeout(() => {
+        this.setState({ notification: null })
+      }, 5000)
     }
   }
 
@@ -83,6 +93,10 @@ class App extends React.Component {
       return (
         <div>
           <h2>Kirjaudu sovellukseen</h2>
+          <Notification
+            message={this.state.notification}
+            notificationType="alert"
+          />
           <form onSubmit={this.login}>
             <div>
               Käyttäjätunnus:
@@ -111,6 +125,10 @@ class App extends React.Component {
     return (
       <div>
         <h2>blogs</h2>
+        <Notification
+          message={this.state.notification}
+          notificationType="success"
+        />
         <p>
           {this.state.user.name} logged in{' '}
           <button onClick={this.logout}>logout</button>
