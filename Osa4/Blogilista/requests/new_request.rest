@@ -1,6 +1,6 @@
 POST http://localhost:3004/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNhdmlwdWx1IiwiaWQiOiI1YTg4ZTI1ODBkNTJjOTc2OGMyMzA4NjkiLCJpYXQiOjE1MTg5NTQzNDZ9.W60DsH6HH_Un6EcTeMTKww3bnr5_X3xy-ZXI6v4J2Qg
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNhdmlwdWx1IiwiaWQiOiI1YTg4ZTI1ODBkNTJjOTc2OGMyMzA4NjkiLCJpYXQiOjE1MTg5NTQ2MzN9.QFlQNkLcPmuJSjlCX_MBjJqz43058GN3v5pHtuGJnKY
 
 {
     "title": "Ruby -blogi",
