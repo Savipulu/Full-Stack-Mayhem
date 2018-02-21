@@ -3,7 +3,9 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import BlogCreationForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import './index.css'
 
 class App extends React.Component {
@@ -91,34 +93,13 @@ class App extends React.Component {
   render() {
     if (this.state.user === null) {
       return (
-        <div>
-          <h2>Kirjaudu sovellukseen</h2>
-          <Notification
-            message={this.state.notification}
-            notificationType="alert"
-          />
-          <form onSubmit={this.login}>
-            <div>
-              Käyttäjätunnus:
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleLoginFieldChange}
-              />
-            </div>
-            <div>
-              Salasana:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleLoginFieldChange}
-              />
-            </div>
-            <button type="submit">kirjaudu</button>
-          </form>
-        </div>
+        <LoginForm
+          notification={this.state.notification}
+          username={this.state.username}
+          password={this.state.password}
+          handleChange={this.handleLoginFieldChange}
+          login={this.login}
+        />
       )
     }
 
@@ -133,7 +114,9 @@ class App extends React.Component {
           {this.state.user.name} logged in{' '}
           <button onClick={this.logout}>logout</button>
         </p>
-        <BlogCreationForm submitMethod={this.createBlog} />
+        <Togglable buttonLabel="Create blog">
+          <BlogCreationForm submitMethod={this.createBlog} />
+        </Togglable>
         <div>{this.showBlogs()}</div>
       </div>
     )
