@@ -33,6 +33,7 @@ class App extends React.Component {
 
   createBlog = async event => {
     event.preventDefault()
+    this.noteForm.toggleVisibility()
     const blogTitle = event.target.title.value
     const blogAuthor = event.target.author.value
     const blogUrl = event.target.url.value
@@ -50,6 +51,9 @@ class App extends React.Component {
         blogs: blogs,
         notification: `a new blog '${blogTitle}' by ${blogAuthor} added`
       })
+      setTimeout(() => {
+        this.setState({ notification: null })
+      }, 5000)
     } catch (exception) {
       console.log(exception)
     }
@@ -114,7 +118,10 @@ class App extends React.Component {
           {this.state.user.name} logged in{' '}
           <button onClick={this.logout}>logout</button>
         </p>
-        <Togglable buttonLabel="Create blog">
+        <Togglable
+          buttonLabel="Create blog"
+          ref={component => (this.blogForm = component)}
+        >
           <BlogCreationForm submitMethod={this.createBlog} />
         </Togglable>
         <div>{this.showBlogs()}</div>
