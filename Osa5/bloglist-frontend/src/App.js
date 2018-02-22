@@ -21,8 +21,9 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    blogService.getAll().then(blogs => this.setState({ blogs }))
+  async componentDidMount() {
+    const b = await blogService.getAll()
+    this.setState({ blogs: b })
 
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
