@@ -21,16 +21,23 @@ describe('<App />', () => {
       expect(blogComponents.length).toEqual(0)
     })
   })
-  /*
+
   describe('when user is logged', () => {
     beforeEach(() => {
       // luo sovellus siten, että käyttäjä on kirjautuneena
+      app = mount(<App />)
+      const user = {
+        username: 'tester',
+        token: '1231231214',
+        name: 'Teuvo Testaaja'
+      }
+      localStorage.setItem('loggedUser', JSON.stringify(user))
     })
 
     it('all notes are rendered', () => {
       app.update()
-      // ...
+      const blogComponents = app.find(Blog)
+      expect(blogComponents.length).toEqual(blogService.blogs.length)
     })
   })
-  */
 })

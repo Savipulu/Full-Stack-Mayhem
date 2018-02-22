@@ -2,36 +2,39 @@ let token = null
 
 const blogs = [
   {
-    id: '5a451df7571c224a31b5c8ce',
-    content: 'HTML on helppoa',
-    date: '2017-12-28T16:38:15.541Z',
-    important: false,
+    _id: '5a451df7571c224a31b5c8ce',
+    title: 'Blog1',
+    author: '?? ??',
+    url: 'www.x.com',
+    likes: 2,
     user: {
-      _id: '5a437a9e514ab7f168ddf138',
-      username: 'mluukkai',
-      name: 'Matti Luukkainen'
+      _id: '5a88e2580d52c9768c230869',
+      username: 'Savipulu',
+      name: 'Jouni Winter'
     }
   },
   {
-    id: '5a451e21e0b8b04a45638211',
-    content: 'Selain pystyy suorittamaan vain javascriptiä',
-    date: '2017-12-28T16:38:57.694Z',
-    important: true,
+    _id: '5a451e21e0b8b04a45638211',
+    title: 'Blog2',
+    author: '??? ???',
+    url: 'www.y.com',
+    likes: 5,
     user: {
-      _id: '5a437a9e514ab7f168ddf138',
-      username: 'mluukkai',
-      name: 'Matti Luukkainen'
+      _id: '5a88e2580d52c9768c230869',
+      username: 'Savipulu',
+      name: 'Jouni Winter'
     }
   },
   {
-    id: '5a451e30b5ffd44a58fa79ab',
-    content: 'HTTP-protokollan tärkeimmät metodit ovat GET ja POST',
-    date: '2017-12-28T16:39:12.713Z',
-    important: true,
+    _id: '5a451e30b5ffd44a58fa79ab',
+    title: 'Blog3',
+    author: '???? ????',
+    url: 'www.z.com',
+    likes: 1,
     user: {
-      _id: '5a437a9e514ab7f168ddf138',
-      username: 'mluukkai',
-      name: 'Matti Luukkainen'
+      _id: '5a88e2580d52c9768c230869',
+      username: 'Savipulu',
+      name: 'Jouni Winter'
     }
   }
 ]
@@ -40,4 +43,8 @@ const getAll = () => {
   return Promise.resolve(blogs)
 }
 
-export default { getAll, blogs }
+const setToken = () => {
+  return true
+}
+
+export default { getAll, setToken, blogs }
