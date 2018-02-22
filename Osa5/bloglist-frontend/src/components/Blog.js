@@ -4,6 +4,7 @@ class Blog extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      id: props.blog._id,
       title: props.blog.title,
       author: props.blog.author,
       url: props.blog.url,
@@ -11,12 +12,19 @@ class Blog extends React.Component {
       user: props.blog.user,
       showAll: false
     }
-    console.log(this.blog)
+    this.parent = props.parent
   }
 
   toggleShowAll = () => {
     this.setState({
       showAll: !this.state.showAll
+    })
+  }
+
+  like = () => {
+    this.parent.like(this.state.id)
+    this.setState({
+      likes: this.state.likes + 1
     })
   }
 
@@ -35,12 +43,13 @@ class Blog extends React.Component {
       return (
         <div>
           {showAll ? (
-            <div style={blogStyle} onClick={this.toggleShowAll}>
-              <div>
+            <div style={blogStyle}>
+              <div onClick={this.toggleShowAll}>
                 {this.state.title} by {this.state.author}
               </div>
               <div>
-                {this.state.likes} likes <button>like</button>
+                {this.state.likes} likes{' '}
+                <button onClick={this.like}>like</button>
               </div>
               <div>{this.state.url}</div>
               <div>added by {this.state.user.name}</div>

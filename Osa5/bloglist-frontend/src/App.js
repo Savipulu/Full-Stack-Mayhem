@@ -84,14 +84,35 @@ class App extends React.Component {
     }
   }
 
+  like = async id => {
+    try {
+      const blog = this.state.blogs.find(b => b._id === id)
+      const likedBlog = { ...blog, likes: blog.likes + 1 }
+      await blogService.update(likedBlog)
+      this.setState({
+        blogs: this.state.blogs.map(
+          b => (b._id === likedBlog._id ? likedBlog : b)
+        )
+      })
+    } catch (exception) {
+      console.log(exception)
+    }
+  }
+
   logout = event => {
     event.preventDefault()
     window.localStorage.removeItem('loggedUser')
     window.location.reload()
   }
 
+  say = word => {
+    console.log(word)
+  }
+
   showBlogs = () => {
-    return this.state.blogs.map(blog => <Blog key={blog._id} blog={blog} />)
+    return this.state.blogs.map(blog => (
+      <Blog key={blog._id} blog={blog} parent={this} /> //like={this.like(blog._id)} />
+    ))
   }
 
   render() {
