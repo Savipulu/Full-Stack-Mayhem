@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 const BlogCreationForm = ({ submitMethod }) => {
   return (
     <div>
@@ -19,6 +21,10 @@ const BlogCreationForm = ({ submitMethod }) => {
       </form>
     </div>
   )
+}
+
+BlogCreationForm.propTypes = {
+  submitMethod: PropTypes.func.isRequired
 }
 
 export default BlogCreationForm

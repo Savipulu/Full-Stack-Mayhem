@@ -131,7 +131,7 @@ class App extends React.Component {
           blog={blog}
           currentUser={this.state.user}
           parent={this}
-        /> //like={this.like(blog._id)} />
+        />
       ))
   }
 
