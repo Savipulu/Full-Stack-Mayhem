@@ -68,14 +68,14 @@ class Blog extends React.Component {
         <div>
           {showAll ? (
             <div style={blogStyle}>
-              <div onClick={this.toggleShowAll}>
+              <div onClick={this.toggleShowAll} className="namepanel">
                 {this.state.title} by {this.state.author}
               </div>
-              <div>
+              <div className="likes">
                 {this.state.likes} likes{' '}
                 <button onClick={this.like}>like</button>
               </div>
-              <div>{this.state.url}</div>
+              <div className="url">{this.state.url}</div>
               {this.getUser()}
               {this.deleteButton()}
             </div>
@@ -88,7 +88,7 @@ class Blog extends React.Component {
       )
     }
     return (
-      <div style={blogStyle} onClick={this.toggleShowAll}>
+      <div style={blogStyle} onClick={this.toggleShowAll} className="namepanel">
         {this.state.title} {this.state.author}
       </div>
     )

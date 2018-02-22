@@ -20,7 +20,7 @@ describe('<SimpleBlog />', () => {
     expect(infoDiv.text()).toContain(blog.author)
     expect(likesDiv.text()).toContain(blog.likes)
   })
-  it('clicking the button twice calls event handler twice', () => {
+  it('calls event handler twice when clicking the button twice', () => {
     const mockHandler = jest.fn()
 
     const blogComponent = shallow(
