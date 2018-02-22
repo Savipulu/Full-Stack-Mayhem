@@ -7,6 +7,7 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import './index.css'
+var _ = require('lodash')
 
 class App extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class App extends React.Component {
 
   createBlog = async event => {
     event.preventDefault()
-    this.noteForm.toggleVisibility()
+    this.blogForm.toggleVisibility()
     const blogTitle = event.target.title.value
     const blogAuthor = event.target.author.value
     const blogUrl = event.target.url.value
@@ -88,11 +89,23 @@ class App extends React.Component {
     try {
       const blog = this.state.blogs.find(b => b._id === id)
       const likedBlog = { ...blog, likes: blog.likes + 1 }
-      await blogService.update(likedBlog)
+      await blogService.updateBlog(likedBlog)
       this.setState({
         blogs: this.state.blogs.map(
           b => (b._id === likedBlog._id ? likedBlog : b)
         )
+      })
+    } catch (exception) {
+      console.log(exception)
+    }
+  }
+
+  delete = async id => {
+    try {
+      const blog = this.state.blogs.find(b => b._id === id)
+      await blogService.deleteBlog(blog)
+      this.setState({
+        blogs: this.state.blogs.filter(b => b._id !== blog._id)
       })
     } catch (exception) {
       console.log(exception)
@@ -110,9 +123,16 @@ class App extends React.Component {
   }
 
   showBlogs = () => {
-    return this.state.blogs.map(blog => (
-      <Blog key={blog._id} blog={blog} parent={this} /> //like={this.like(blog._id)} />
-    ))
+    return _.sortBy(this.state.blogs, b => b.likes)
+      .reverse()
+      .map(blog => (
+        <Blog
+          key={blog._id}
+          blog={blog}
+          currentUser={this.state.user}
+          parent={this}
+        /> //like={this.like(blog._id)} />
+      ))
   }
 
   render() {

@@ -9,8 +9,9 @@ class Blog extends React.Component {
       author: props.blog.author,
       url: props.blog.url,
       likes: props.blog.likes,
-      user: props.blog.user,
-      showAll: false
+      user: props.blog.user ? props.blog.user : undefined,
+      showAll: false,
+      currentUser: props.currentUser
     }
     this.parent = props.parent
   }
@@ -26,6 +27,29 @@ class Blog extends React.Component {
     this.setState({
       likes: this.state.likes + 1
     })
+  }
+
+  delete = () => {
+    if (
+      window.confirm(`delete ${this.state.title} by  ${this.state.author}?`)
+    ) {
+      this.parent.delete(this.state.id)
+    }
+  }
+
+  deleteButton = () => {
+    if (
+      this.state.user === undefined ||
+      this.state.user.name === this.state.currentUser.name
+    ) {
+      return <button onClick={this.delete}>delete</button>
+    }
+  }
+
+  getUser = () => {
+    if (this.state.user !== undefined) {
+      return <div>added by {this.state.user.name}</div>
+    }
   }
 
   render() {
@@ -52,7 +76,8 @@ class Blog extends React.Component {
                 <button onClick={this.like}>like</button>
               </div>
               <div>{this.state.url}</div>
-              <div>added by {this.state.user.name}</div>
+              {this.getUser()}
+              {this.deleteButton()}
             </div>
           ) : (
             <div style={blogStyle} onClick={this.toggleShowAll}>
