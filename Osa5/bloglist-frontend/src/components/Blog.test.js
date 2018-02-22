@@ -18,7 +18,7 @@ describe('<Blog />', () => {
 
   it('at start the title and author are displayed', () => {
     const nameDiv = blogComponent.find('.namepanel')
-    console.log(nameDiv.debug())
+
     expect(nameDiv.text()).toContain(blog.title)
     expect(nameDiv.text()).toContain(blog.author)
     expect(nameDiv.text()).not.toContain(blog.url)
