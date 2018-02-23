@@ -1,4 +1,5 @@
 import React from "react";
+var _ = require("lodash");
 
 const actionFor = {
   voting(id) {
@@ -15,21 +16,23 @@ class App extends React.Component {
     return (
       <div>
         <h2>Anecdotes</h2>
-        {anecdotes.map(anecdote => (
-          <div key={anecdote.id}>
-            <div>{anecdote.content}</div>
-            <div>
-              has {anecdote.votes}
-              <button
-                onClick={() =>
-                  this.props.store.dispatch(actionFor.voting(anecdote.id))
-                }
-              >
-                vote
-              </button>
+        {_.sortBy(anecdotes, a => a.votes)
+          .reverse()
+          .map(anecdote => (
+            <div key={anecdote.id}>
+              <div>{anecdote.content}</div>
+              <div>
+                has {anecdote.votes}
+                <button
+                  onClick={() =>
+                    this.props.store.dispatch(actionFor.voting(anecdote.id))
+                  }
+                >
+                  vote
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         <h2>create new</h2>
         <form>
           <div>
