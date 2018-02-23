@@ -2,9 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createStore } from "redux";
 import counterReducer from "./CounterReducer";
+var _ = require("lodash");
 
 const Statistiikka = () => {
-  const palautteita = 0;
+  const palautteita = Object.keys(store.getState())
+    .map(a => store.getState()[a])
+    .reduce((accumulator, currentValue) => accumulator + currentValue);
 
   if (palautteita === 0) {
     return (
@@ -22,28 +25,35 @@ const Statistiikka = () => {
         <tbody>
           <tr>
             <td>hyvä</td>
-            <td />
+            <td>{store.getState().good}</td>
           </tr>
           <tr>
             <td>neutraali</td>
-            <td />
+            <td>{store.getState().ok}</td>
           </tr>
           <tr>
             <td>huono</td>
-            <td />
+            <td>{store.getState().bad}</td>
           </tr>
           <tr>
             <td>keskiarvo</td>
-            <td />
+            <td>
+              {_.round(
+                (store.getState().good - store.getState().bad) / palautteita,
+                2
+              )}
+            </td>
           </tr>
           <tr>
             <td>positiivisia</td>
-            <td />
+            <td>{_.round(store.getState().good / palautteita * 100, 2)} %</td>
           </tr>
         </tbody>
       </table>
 
-      <button>nollaa tilasto</button>
+      <button onClick={e => store.dispatch({ type: "ZERO" })}>
+        nollaa tilasto
+      </button>
     </div>
   );
 };
@@ -51,7 +61,9 @@ const Statistiikka = () => {
 const store = createStore(counterReducer);
 
 class App extends React.Component {
-  klik = nappi => () => {};
+  klik = nappi => () => {
+    store.dispatch({ type: nappi });
+  };
 
   render() {
     return (
@@ -66,6 +78,10 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const render = () => {
+  ReactDOM.render(<App />, document.getElementById("root"));
+};
+render();
+store.subscribe(render);
 
 export default App;
