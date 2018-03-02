@@ -23,13 +23,13 @@ const initialState = anecdotesAtStart.map(asObject)
 
 const reducer = (store = [], action) => {
   if (action.type === 'VOTE') {
-    const old = store.filter(a => a.id !== action.id)
-    const voted = store.find(a => a.id === action.id)
+    const old = store.filter(a => a.id !== action.data.id)
 
-    return [...old, { ...voted, votes: voted.votes + 1 }]
+    return [...old, action.data]
   }
   if (action.type === 'CREATE') {
-    return [...store, { content: action.content, id: getId(), votes: 0 }]
+    console.log(action)
+    return [...store, action.data]
   }
 
   if (action.type === 'INIT_ANECDOTES') {
@@ -39,10 +39,10 @@ const reducer = (store = [], action) => {
   return store
 }
 
-export const createAnecdote = content => {
+export const createAnecdote = data => {
   return {
     type: 'CREATE',
-    content
+    data
   }
 }
 
@@ -53,10 +53,10 @@ export const initAnecdotes = data => {
   }
 }
 
-export const vote = id => {
+export const vote = data => {
   return {
     type: 'VOTE',
-    id
+    data
   }
 }
 
