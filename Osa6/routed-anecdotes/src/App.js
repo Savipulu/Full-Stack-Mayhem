@@ -5,7 +5,8 @@ import {
   Link,
   Route
 } from "react-router-dom";
-import { Container, Table } from "semantic-ui-react";
+import { Container, Table, Grid, Image } from "semantic-ui-react";
+import img from "./martin_fowler.png";
 
 const Menu = ({ style, activeStyle }) => (
   <div style={style}>
@@ -61,23 +62,33 @@ const AnecdoteList = ({ anecdotes }) => (
 
 const About = () => (
   <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
+    <Grid>
+      <Grid.Row columns={2}>
+        <Grid.Column width={10}>
+          <h2>About anecdote app</h2>
+          <p>According to Wikipedia:</p>
 
-    <em>
-      An anecdote is a brief, revealing account of an individual person or an
-      incident. Occasionally humorous, anecdotes differ from jokes because their
-      primary purpose is not simply to provoke laughter but to reveal a truth
-      more general than the brief tale itself, such as to characterize a person
-      by delineating a specific quirk or trait, to communicate an abstract idea
-      about a person, place, or thing through the concrete details of a short
-      narrative. An anecdote is "a story with a point."
-    </em>
+          <em>
+            An anecdote is a brief, revealing account of an individual person or
+            an incident. Occasionally humorous, anecdotes differ from jokes
+            because their primary purpose is not simply to provoke laughter but
+            to reveal a truth more general than the brief tale itself, such as
+            to characterize a person by delineating a specific quirk or trait,
+            to communicate an abstract idea about a person, place, or thing
+            through the concrete details of a short narrative. An anecdote is "a
+            story with a point."
+          </em>
 
-    <p>
-      Software engineering is full of excellent anecdotes, at this app you can
-      find the best and add more.
-    </p>
+          <p>
+            Software engineering is full of excellent anecdotes, at this app you
+            can find the best and add more.
+          </p>
+        </Grid.Column>
+        <Grid.Column width={6}>
+          <Image src={img} />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   </div>
 );
 
