@@ -27,9 +27,9 @@ const Anecdote = ({ anecdote }) => {
   );
 };
 
-const Notification = ({ message }) => {
+const Notification = ({ style, message }) => {
   if (message) {
-    return <div>{message}</div>;
+    return <div style={style}>{message}</div>;
   }
   return null;
 };
@@ -195,12 +195,22 @@ class App extends React.Component {
   };
 
   render() {
+    const notificationStyle = {
+      padding: 20,
+      margin: 5,
+      borderLeft: "solid",
+      color: "green"
+    };
     return (
       <Router>
         <div>
           <h1>Software anecdotes</h1>
           <Menu />
-          <Notification message={this.state.notification} />
+          <Notification
+            style={notificationStyle}
+            message={this.state.notification}
+          />
+
           <Route
             exact
             path="/"
