@@ -1,15 +1,22 @@
 import React from "react";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  NavLink,
+  Link,
+  Route
+} from "react-router-dom";
 
-const Menu = () => (
-  <div>
-    <div>
-      <div>
-        <Link to="/">anecdotes</Link>&nbsp;
-        <Link to="/create">create new</Link>&nbsp;
-        <Link to="/about">about</Link>&nbsp;
-      </div>
-    </div>
+const Menu = ({ style, activeStyle }) => (
+  <div style={style}>
+    <NavLink exact to="/" activeStyle={activeStyle}>
+      anecdotes
+    </NavLink>&nbsp;
+    <NavLink exact to="/create" activeStyle={activeStyle}>
+      create new
+    </NavLink>&nbsp;
+    <NavLink exact to="/about" activeStyle={activeStyle}>
+      about
+    </NavLink>&nbsp;
   </div>
 );
 
@@ -201,11 +208,22 @@ class App extends React.Component {
       borderLeft: "solid",
       color: "green"
     };
+    const navBarStyle = {
+      padding: 10,
+      margin: 5,
+      background: "lightgrey"
+    };
+    const activeStyle = {
+      borderRadius: 10,
+      padding: 5,
+      color: "red",
+      background: "white"
+    };
     return (
       <Router>
         <div>
           <h1>Software anecdotes</h1>
-          <Menu />
+          <Menu style={navBarStyle} activeStyle={activeStyle} />
           <Notification
             style={notificationStyle}
             message={this.state.notification}
