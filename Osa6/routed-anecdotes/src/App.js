@@ -5,7 +5,16 @@ import {
   Link,
   Route
 } from "react-router-dom";
-import { Container, Table, Grid, Image } from "semantic-ui-react";
+import {
+  Container,
+  Table,
+  Grid,
+  Image,
+  Form,
+  Button,
+  Header,
+  Icon
+} from "semantic-ui-react";
 import img from "./martin_fowler.png";
 
 const Menu = ({ style, activeStyle }) => (
@@ -65,7 +74,10 @@ const About = () => (
     <Grid>
       <Grid.Row columns={2}>
         <Grid.Column width={10}>
-          <h2>About anecdote app</h2>
+          <Header as="h2">
+            <Icon name="info" />
+            <Header.Content>About anecdote app</Header.Content>
+          </Header>
           <p>According to Wikipedia:</p>
 
           <em>
@@ -133,36 +145,39 @@ class CreateNew extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>create a new anecdote</h2>
+      <Form>
+        <Header as="h2">
+          <Icon name="write" />
+          <Header.Content>create a new anecdote</Header.Content>
+        </Header>
         <form onSubmit={this.handleSubmit}>
-          <div>
+          <Form.Field>
             content
             <input
               name="content"
               value={this.state.content}
               onChange={this.handleChange}
             />
-          </div>
-          <div>
+          </Form.Field>
+          <Form.Field>
             author
             <input
               name="author"
               value={this.state.author}
               onChange={this.handleChange}
             />
-          </div>
-          <div>
+          </Form.Field>
+          <Form.Field>
             url for more info
             <input
               name="info"
               value={this.state.info}
               onChange={this.handleChange}
             />
-          </div>
-          <button>create</button>
+          </Form.Field>
+          <Button color="green">create</Button>
         </form>
-      </div>
+      </Form>
     );
   }
 }
@@ -225,8 +240,9 @@ class App extends React.Component {
       color: "green"
     };
     const navBarStyle = {
+      borderRadius: 5,
       padding: 10,
-      margin: 5,
+      margin: 10,
       background: "lightgrey"
     };
     const activeStyle = {
@@ -235,11 +251,17 @@ class App extends React.Component {
       color: "red",
       background: "white"
     };
+    const basicPadding = {
+      padding: 15
+    };
     return (
       <Container>
         <Router>
-          <div>
-            <h1>Software anecdotes</h1>
+          <div style={basicPadding}>
+            <Header as="h1" padding={20}>
+              <Icon name="quote right" />
+              <Header.Content>Software anecdotes</Header.Content>
+            </Header>
             <Menu style={navBarStyle} activeStyle={activeStyle} />
             <Notification
               style={notificationStyle}
