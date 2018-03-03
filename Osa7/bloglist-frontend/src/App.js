@@ -7,7 +7,7 @@ import BlogCreationForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import './index.css'
 var _ = require('lodash')
 
@@ -28,11 +28,32 @@ const Users = ({ users }) => {
         </tr>
         {users.map(user => (
           <tr>
-            <td>{user.name}</td>
+            <td>
+              <Link to={`/users/${user._id}`}>{user.name}</Link>
+            </td>
             <td>{user.blogs.length}</td>
           </tr>
         ))}
       </table>
+    </div>
+  )
+}
+
+const User = ({ user }) => {
+  if (user === undefined) {
+    return <div>no user found</div>
+  }
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <h3>Added blogs</h3>
+      <ul>
+        {user.blogs.map(blog => (
+          <li>
+            {blog.title} by {blog.author}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -163,6 +184,9 @@ class App extends React.Component {
   }
 
   render() {
+    const userById = id => {
+      return this.state.users.find(user => user._id === id)
+    }
     if (this.state.currentUser === null) {
       return (
         <LoginForm
@@ -207,8 +231,16 @@ class App extends React.Component {
                 )}
               />
               <Route
+                exact
                 path="/users"
                 render={() => <Users users={this.state.users} />}
+              />
+              <Route
+                exact
+                path="/users/:id"
+                render={({ match }) => (
+                  <User user={userById(match.params.id)} />
+                )}
               />
             </div>
           </div>
