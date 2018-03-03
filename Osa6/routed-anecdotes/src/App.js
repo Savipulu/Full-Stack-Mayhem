@@ -54,7 +54,10 @@ const Notification = ({ style, message }) => {
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
-    <h2>Anecdotes</h2>
+    <Header as="h2">
+      <Icon name="quote right" size="mini" />
+      <Header.Content>Anecdotes</Header.Content>
+    </Header>
     <Table>
       <Table.Body>
         {anecdotes.map(anecdote => (
@@ -75,7 +78,7 @@ const About = () => (
       <Grid.Row columns={2}>
         <Grid.Column width={10}>
           <Header as="h2">
-            <Icon name="info" />
+            <Icon name="info" size="mini" />
             <Header.Content>About anecdote app</Header.Content>
           </Header>
           <p>According to Wikipedia:</p>
@@ -147,7 +150,7 @@ class CreateNew extends React.Component {
     return (
       <Form>
         <Header as="h2">
-          <Icon name="write" />
+          <Icon name="write" size="mini" />
           <Header.Content>create a new anecdote</Header.Content>
         </Header>
         <form onSubmit={this.handleSubmit}>
