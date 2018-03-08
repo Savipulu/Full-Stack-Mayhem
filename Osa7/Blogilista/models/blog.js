@@ -5,7 +5,8 @@ var schema = new mongoose.Schema({
   author: String,
   url: String,
   likes: Number,
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  comments: [{ type: String }]
 })
 
 const Blog = mongoose.model('Blog', schema)

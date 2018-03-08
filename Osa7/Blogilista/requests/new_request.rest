@@ -3,9 +3,9 @@ content-type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QgVXNlciIsImlkIjoiNWE4OGUyNTgwMmVkYjQ3NjkxODg1YzlkIiwiaWF0IjoxNTE5MzE0NDIyfQ.tdaXuCfsBbL7GjDmps8nLke5P4A1tqrwV3MCIlh8W-c
 
 {
-    "title": "TDD + Alcohol: A Study",
-    "author": "Olli Opiskelija-elämä",
-    "url": "www.yolo.org",
+    "title": "Killing Me Not So Softly: How I Nearly Survived Tira",
+    "author": "Me",
+    "url": "www.wololoo.org",
     "likes": 0,
-    "userId": "5a88d600c52c3f585196c251"
+    "userId": "5a88e25802edb47691885c9d"
 }

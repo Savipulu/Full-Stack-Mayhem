@@ -71,21 +71,40 @@ const User = ({ user }) => {
   )
 }
 
-const BlogView = ({ blog, likeMethod }) => {
+const BlogView = ({ blog, likeMethod, commentMethod }) => {
+  const onSubmit = event => {
+    event.preventDefault()
+    commentMethod(event.target.comment.value, blog._id)
+    event.target.comment.value = ''
+  }
   if (blog === undefined) {
     return <div>no blog found</div>
   }
   return (
     <div>
-      <h2>
-        {blog.title} {blog.author}
-      </h2>
-      <div>{blog.url}</div>
       <div>
-        {blog.likes} likes{' '}
-        <button onClick={() => likeMethod(blog._id)}>like</button>
+        <h2>
+          {blog.title}, by {blog.author}
+        </h2>
+        <div>{blog.url}</div>
+        <div>
+          {blog.likes} likes{' '}
+          <button onClick={() => likeMethod(blog._id)}>like</button>
+        </div>
+        <div>added by {blog.user.name}</div>
       </div>
-      <div>added by {blog.user.name}</div>
+      <div>
+        <h3>comments</h3>
+        <ul>
+          {blog.comments.map(comment => <li key={comment}>{comment}</li>)}
+        </ul>
+        <form onSubmit={onSubmit}>
+          <div>
+            <input name="comment" />
+            <button>comment</button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
@@ -179,6 +198,23 @@ class App extends React.Component {
           b => (b._id === likedBlog._id ? likedBlog : b)
         )
       })
+    } catch (exception) {
+      console.log(exception)
+    }
+  }
+
+  comment = async (comment, id) => {
+    try {
+      const blog = this.state.blogs.find(b => b._id === id)
+      const commented = { ...blog, comments: blog.comments.concat(comment) }
+      await blogService.updateBlog(commented)
+      this.setState({
+        notification: `comment '${comment}' added to blog '${commented.title}'`,
+        blogs: this.state.blogs.map(
+          b => (b._id === commented._id ? commented : b)
+        )
+      })
+      setTimeout(() => this.setState({ notification: null }), 5000)
     } catch (exception) {
       console.log(exception)
     }
@@ -278,6 +314,7 @@ class App extends React.Component {
                   <BlogView
                     blog={findById(this.state.blogs, match.params.id)}
                     likeMethod={this.like}
+                    commentMethod={this.comment}
                   />
                 )}
               />
