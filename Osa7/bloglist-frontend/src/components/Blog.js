@@ -57,20 +57,12 @@ class Blog extends React.Component {
   }
 
   render() {
-    const blogStyle = {
-      paddingTop: 10,
-      paddingLeft: 2,
-      border: 'solid',
-      borderWidth: 1,
-      marginBottom: 5
-    }
-
     const showAll = this.state.showAll
 
     return (
       <div>
         {showAll ? (
-          <div style={blogStyle}>
+          <div>
             <div className="namepanel">
               <Link to={`blogs/${this.state.id}`}>
                 {this.state.title} by {this.state.author}
@@ -84,7 +76,7 @@ class Blog extends React.Component {
             {this.deleteButton()}
           </div>
         ) : (
-          <div style={blogStyle}>
+          <div>
             <Link to={`blogs/${this.state.id}`}>
               {this.state.title} {this.state.author}
             </Link>

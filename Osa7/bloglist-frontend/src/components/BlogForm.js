@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Button, Form } from 'semantic-ui-react'
 
 const BlogCreationForm = ({ submitMethod }) => {
   return (
     <div>
-      <form id="blogCreationForm" onSubmit={submitMethod}>
+      <Form id="blogCreationForm" onSubmit={submitMethod}>
         <div>
           title
           <input name="title" />
@@ -17,8 +18,13 @@ const BlogCreationForm = ({ submitMethod }) => {
           url
           <input name="url" />
         </div>
-        <button type="submit">create</button>
-      </form>
+        <div>
+          <br />
+          <Button color="green" type="submit">
+            create
+          </Button>
+        </div>
+      </Form>
     </div>
   )
 }

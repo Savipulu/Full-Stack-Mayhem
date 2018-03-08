@@ -8,13 +8,24 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Container, Button, Table } from 'semantic-ui-react'
 import './index.css'
 var _ = require('lodash')
 
 const Blogs = ({ blogs, user, parent }) => {
-  return blogs.map(blog => (
-    <Blog key={blog._id} blog={blog} currentUser={user} parent={parent} />
-  ))
+  return (
+    <Table>
+      <Table.Body>
+        {blogs.map(blog => (
+          <Table.Row key={blog._id}>
+            <Table.Cell>
+              <Blog blog={blog} currentUser={user} parent={parent} />
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  )
 }
 
 const Menu = ({ currentUser }) => {
@@ -22,8 +33,8 @@ const Menu = ({ currentUser }) => {
     <div>
       <Link to="/">blogs</Link>&nbsp;
       <Link to="/users">users</Link>&nbsp;
-      <em>{currentUser.name} logged in </em>
-      <button onClick={this.logout}>logout</button>
+      <em>{currentUser.name} logged in </em> &nbsp;
+      <Button onClick={this.logout}>logout</Button>
     </div>
   )
 }
@@ -32,12 +43,14 @@ const Users = ({ users }) => {
   return (
     <div>
       <h2>users</h2>
-      <table>
-        <tbody>
+      <Table>
+        <Table.Header>
           <tr>
             <th />
             <th>blogs added</th>
           </tr>
+        </Table.Header>
+        <Table.Body>
           {users.map(user => (
             <tr key={user._id}>
               <td>
@@ -46,8 +59,8 @@ const Users = ({ users }) => {
               <td>{user.blogs.length}</td>
             </tr>
           ))}
-        </tbody>
-      </table>
+        </Table.Body>
+      </Table>
     </div>
   )
 }
@@ -268,60 +281,64 @@ class App extends React.Component {
     }
 
     return (
-      <div>
-        <Router>
-          <div>
-            <h2>blog application</h2>
-            <Notification
-              message={this.state.notification}
-              notificationType="success"
-            />
-            <Menu currentUser={this.state.currentUser} />
-            <Togglable
-              buttonLabel="Create blog"
-              ref={component => (this.blogForm = component)}
-            >
-              <BlogCreationForm submitMethod={this.createBlog} />
-            </Togglable>
+      <Container>
+        <div>
+          <Router>
             <div>
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  <Blogs
-                    blogs={this.getBlogs()}
-                    user={this.state.currentUser}
-                    parent={this}
-                  />
-                )}
+              <h2>blog application</h2>
+              <Notification
+                message={this.state.notification}
+                notificationType="success"
               />
-              <Route
-                exact
-                path="/users"
-                render={() => <Users users={this.state.users} />}
-              />
-              <Route
-                exact
-                path="/users/:id"
-                render={({ match }) => (
-                  <User user={findById(this.state.users, match.params.id)} />
-                )}
-              />
-              <Route
-                exact
-                path="/blogs/:id"
-                render={({ match }) => (
-                  <BlogView
-                    blog={findById(this.state.blogs, match.params.id)}
-                    likeMethod={this.like}
-                    commentMethod={this.comment}
-                  />
-                )}
-              />
+              <Menu currentUser={this.state.currentUser} />
+              <br />
+              <Togglable
+                buttonLabel="Create blog"
+                ref={component => (this.blogForm = component)}
+              >
+                <BlogCreationForm submitMethod={this.createBlog} />
+              </Togglable>
+              <br />
+              <div>
+                <Route
+                  exact
+                  path="/"
+                  render={() => (
+                    <Blogs
+                      blogs={this.getBlogs()}
+                      user={this.state.currentUser}
+                      parent={this}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/users"
+                  render={() => <Users users={this.state.users} />}
+                />
+                <Route
+                  exact
+                  path="/users/:id"
+                  render={({ match }) => (
+                    <User user={findById(this.state.users, match.params.id)} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/blogs/:id"
+                  render={({ match }) => (
+                    <BlogView
+                      blog={findById(this.state.blogs, match.params.id)}
+                      likeMethod={this.like}
+                      commentMethod={this.comment}
+                    />
+                  )}
+                />
+              </div>
             </div>
-          </div>
-        </Router>
-      </div>
+          </Router>
+        </div>
+      </Container>
     )
   }
 }
