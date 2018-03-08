@@ -58,6 +58,25 @@ const User = ({ user }) => {
   )
 }
 
+const BlogView = ({ blog, likeMethod }) => {
+  if (blog === undefined) {
+    return <div>no blog found</div>
+  }
+  return (
+    <div>
+      <h2>
+        {blog.title} {blog.author}
+      </h2>
+      <div>{blog.url}</div>
+      <div>
+        {blog.likes} likes{' '}
+        <button onClick={() => likeMethod(blog._id)}>like</button>
+      </div>
+      <div>added by {blog.user.name}</div>
+    </div>
+  )
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -184,8 +203,8 @@ class App extends React.Component {
   }
 
   render() {
-    const userById = id => {
-      return this.state.users.find(user => user._id === id)
+    const findById = (list, id) => {
+      return list.find(elem => elem._id === id)
     }
     if (this.state.currentUser === null) {
       return (
@@ -239,7 +258,17 @@ class App extends React.Component {
                 exact
                 path="/users/:id"
                 render={({ match }) => (
-                  <User user={userById(match.params.id)} />
+                  <User user={findById(this.state.users, match.params.id)} />
+                )}
+              />
+              <Route
+                exact
+                path="/blogs/:id"
+                render={({ match }) => (
+                  <BlogView
+                    blog={findById(this.state.blogs, match.params.id)}
+                    likeMethod={this.like}
+                  />
                 )}
               />
             </div>

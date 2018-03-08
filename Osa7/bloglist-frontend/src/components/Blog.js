@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 class Blog extends React.Component {
   constructor(props) {
@@ -16,11 +17,14 @@ class Blog extends React.Component {
     this.parent = props.parent
   }
 
+  //Deprecated
+  /*
   toggleShowAll = () => {
     this.setState({
       showAll: !this.state.showAll
     })
   }
+  */
 
   like = () => {
     this.parent.like(this.state.id)
@@ -63,33 +67,29 @@ class Blog extends React.Component {
 
     const showAll = this.state.showAll
 
-    if (showAll) {
-      return (
-        <div>
-          {showAll ? (
-            <div style={blogStyle}>
-              <div onClick={this.toggleShowAll} className="namepanel">
-                {this.state.title} by {this.state.author}
-              </div>
-              <div className="likes">
-                {this.state.likes} likes{' '}
-                <button onClick={this.like}>like</button>
-              </div>
-              <div className="url">{this.state.url}</div>
-              {this.getUser()}
-              {this.deleteButton()}
-            </div>
-          ) : (
-            <div style={blogStyle} onClick={this.toggleShowAll}>
-              {this.state.title} {this.state.author}
-            </div>
-          )}
-        </div>
-      )
-    }
     return (
-      <div style={blogStyle} onClick={this.toggleShowAll} className="namepanel">
-        {this.state.title} {this.state.author}
+      <div>
+        {showAll ? (
+          <div style={blogStyle}>
+            <div className="namepanel">
+              <Link to={`blogs/${this.state.id}`}>
+                {this.state.title} by {this.state.author}
+              </Link>
+            </div>
+            <div className="likes">
+              {this.state.likes} likes <button onClick={this.like}>like</button>
+            </div>
+            <div className="url">{this.state.url}</div>
+            {this.getUser()}
+            {this.deleteButton()}
+          </div>
+        ) : (
+          <div style={blogStyle}>
+            <Link to={`blogs/${this.state.id}`}>
+              {this.state.title} {this.state.author}
+            </Link>
+          </div>
+        )}
       </div>
     )
   }
