@@ -17,23 +17,36 @@ const Blogs = ({ blogs, user, parent }) => {
   ))
 }
 
+const Menu = ({ currentUser }) => {
+  return (
+    <div>
+      <Link to="/">blogs</Link>&nbsp;
+      <Link to="/users">users</Link>&nbsp;
+      <em>{currentUser.name} logged in </em>
+      <button onClick={this.logout}>logout</button>
+    </div>
+  )
+}
+
 const Users = ({ users }) => {
   return (
     <div>
       <h2>users</h2>
       <table>
-        <tr>
-          <th />
-          <th>blogs added</th>
-        </tr>
-        {users.map(user => (
+        <tbody>
           <tr>
-            <td>
-              <Link to={`/users/${user._id}`}>{user.name}</Link>
-            </td>
-            <td>{user.blogs.length}</td>
+            <th />
+            <th>blogs added</th>
           </tr>
-        ))}
+          {users.map(user => (
+            <tr key={user._id}>
+              <td>
+                <Link to={`/users/${user._id}`}>{user.name}</Link>
+              </td>
+              <td>{user.blogs.length}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   )
@@ -222,15 +235,12 @@ class App extends React.Component {
       <div>
         <Router>
           <div>
-            <h2>blogs</h2>
+            <h2>blog application</h2>
             <Notification
               message={this.state.notification}
               notificationType="success"
             />
-            <p>
-              {this.state.currentUser.name} logged in{' '}
-              <button onClick={this.logout}>logout</button>
-            </p>
+            <Menu currentUser={this.state.currentUser} />
             <Togglable
               buttonLabel="Create blog"
               ref={component => (this.blogForm = component)}
